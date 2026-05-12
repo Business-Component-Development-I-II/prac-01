@@ -18,6 +18,10 @@ public class ProfileController extends HttpServlet {
 
         if (session.getAttribute("email") != null){
 
+            resp.getWriter().write(session.getAttribute("name").toString());
+            resp.getWriter().write(session.getAttribute("email").toString());
+            resp.getWriter().write(session.getAttribute("mobile").toString());
+
         } else {
             resp.sendRedirect("signin.jsp");
         }
