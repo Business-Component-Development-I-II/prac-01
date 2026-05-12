@@ -22,35 +22,32 @@ public class SignUpController extends HttpServlet {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
 
-        // 1. ServletContext eka gannawa server-wide data share karanna
         ServletContext context = getServletContext();
+        ArrayList<User> users = new ArrayList<>();
 
-        // 2. Context eke "userList" kiyala attribute ekak thiyanawada balanawa.
-        // Nathi nam aluth list ekak hadala context ekata dapanawa.
-        ArrayList<User> userList;
-        if (context.getAttribute("userList") == null) {
-            userList = new ArrayList<>();
-            context.setAttribute("userList", userList);
+        if (context.getAttribute("users") != null) {
+
+            users = (ArrayList<User>) context.getAttribute("users");
+
         } else {
-            userList = (ArrayList<User>) context.getAttribute("userList");
+            context.setAttribute("users", users);
         }
 
         if (!name.isEmpty() && !mobile.isEmpty() && !email.isEmpty() && !password.isEmpty()) {
 
-            for (User user : userList) {
+            for (User user : users) {
                 if (user.getEmail().equals(email)) {
-                    resp.getWriter().write("Error: " + email + " is already in use!");
+                    resp.getWriter().write(email + " is already in use");
                     return;
                 }
             }
 
-            User newUser = new User(name, mobile, email, password);
-            userList.add(newUser);
-
-            resp.getWriter().write("Registration Successful for " + name);
+            User user = new User(name, mobile, email, password);
+            users.add(user);
+            resp.getWriter().write(email + " has been registered");
 
         } else {
-            resp.getWriter().write("Error: All fields are required!");
+            resp.getWriter().write("Required filled cannot be empty");
         }
     }
 }
