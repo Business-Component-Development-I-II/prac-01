@@ -4,6 +4,8 @@ public class User {
 
     private String name;
     private String mobile;
+    private String email;
+    private String password;
 
     public String getName() {
         return name;
